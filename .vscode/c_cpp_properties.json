@@ -4,7 +4,9 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/SysTick-Driver/inc"
+                "${workspaceFolder}/SysTick-Driver/inc",
+                "${workspaceFolder}/UART-Driver/inc",
+                "${workspaceFolder}/UART-Driver/chip-headers/CMSIS/Device/ST/STM32F4xx/Include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",
