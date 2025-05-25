@@ -1,0 +1,7 @@
+../Src/lcd.c:7:13:lcd_cmd	16	static
+../Src/lcd.c:17:13:lcd_data	16	static
+../Src/lcd.c:26:13:lcd_reset	8	static
+../Src/lcd.c:35:6:lcd_init	16	static
+../Src/lcd.c:71:6:lcd_set_window	32	static
+../Src/lcd.c:96:6:lcd_draw_pixel	24	static
+../Src/lcd.c:102:6:lcd_fill_screen	24	static

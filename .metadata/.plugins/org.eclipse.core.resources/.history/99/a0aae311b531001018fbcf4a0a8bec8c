@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include "stm32f446xx.h"
+#include "uart.h"
+#include "spi.h"
+
+int main(void)
+{
+    uint8_t tx = 0xA5, rx = 0;
+
+    uart_init();        // for printf()
+    spi_gpio_init();    // config PA5/6/7 for AF5, PA9 for GPIO out
+    spi1_config();      // config SPI_CR2, SPI_CR1, enable SPI
+
+    cs_disable();       // makes sure PA9 stays high
+
+    // transmit 0xA5 and immediately read it back
+    spi1_transmit(&tx, 1);
+    spi1_receive (&rx, 1);
+
+    printf("Loopback read = 0x%02X\n", rx);
+
+    while(1);
+}

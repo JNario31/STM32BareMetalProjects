@@ -1,0 +1,80 @@
+#include "spi.h"
+
+#define SPI1EN        (1U << 12)  // RCC->APB2ENR SPI1EN
+#define GPIOAEN       (1U << 0)   // RCC->AHB1ENR GPIOAEN
+
+#define SR_TXE        (1U << 1)
+#define SR_RXNE       (1U << 0)
+#define SR_BSY        (1U << 7)
+
+#define SPI_CR2_DS    (7U << 8)    // DS[3:0] = 0b0111 → 8 bits
+#define SPI_CR2_FRXTH (1U << 12)   // RXNE when ≥1 byte
+
+void spi_gpio_init(void)
+{
+    // 1) GPIOA clock
+    RCC->AHB1ENR |= GPIOAEN;
+
+    // 2) PA5/6/7 → AF mode (10), PA9 → output (01)
+    GPIOA->MODER &= ~((3U<<10)|(3U<<12)|(3U<<14)|(3U<<18)|(3U<<20));
+    GPIOA->MODER |=  ((2U<<10)|(2U<<12)|(2U<<14)|(1U<<18));
+
+    // 3) AF5 on PA5/6/7
+    GPIOA->AFR[0] &= ~((0xFU<<20)|(0xFU<<24)|(0xFU<<28));
+    GPIOA->AFR[0] |=  ((5U<<20)|(5U<<24)|(5U<<28));
+
+    // 4) Very high speed on SCK/MISO/MOSI
+    GPIOA->OSPEEDR |= (3U<<10)|(3U<<12)|(3U<<14);
+
+    // 5) Pull‑up MISO (PA6)
+    GPIOA->PUPDR   &= ~ (3U<<12);
+    GPIOA->PUPDR   |=  (1U<<12);
+
+    // 6) CS idle high
+    GPIOA->ODR |= (1U<<9);
+}
+
+void spi1_config(void)
+{
+    // 1) SPI1 clock
+    RCC->APB2ENR |= SPI1EN;
+
+    // 2) Clear then set CR2
+    SPI1->CR2 = SPI_CR2_DS | SPI_CR2_FRXTH;
+
+    // 3) Build CR1: master, fPCLK/4, CPOL=1, CPHA=1, SSM/SSI
+    SPI1->CR1 = (1U<<2)               /* MSTR    = 1 */
+              | (1U<<3)               /* BR0     = 1 (divide by 4) */
+              | (1U<<0)               /* CPOL    = 1 */
+              | (1U<<1)               /* CPHA    = 1 */
+              | (1U<<8)               /* SSM     = 1 */
+              | (1U<<9);              /* SSI     = 1 */
+
+    // 4) Enable SPI
+    SPI1->CR1 |= (1U<<6);            /* SPE     = 1 */
+}
+
+void spi1_transmit(uint8_t *data, uint32_t size)
+{
+    uint8_t temp;
+    for (uint32_t i = 0; i < size; i++) {
+        while (!(SPI1->SR & SR_TXE)) { }
+        SPI1->DR = data[i];
+    }
+    while (!(SPI1->SR & SR_TXE)) { }
+    while ( SPI1->SR &  SR_BSY) { }
+    // clear overrun just in case
+    temp = SPI1->DR; temp = SPI1->SR;
+}
+
+void spi1_receive(uint8_t *data, uint32_t size)
+{
+    for (uint32_t i = 0; i < size; i++) {
+        SPI1->DR = 0;                    // dummy
+        while (!(SPI1->SR & SR_RXNE)) { }
+        data[i] = SPI1->DR;
+    }
+}
+
+void cs_enable(void)  { GPIOA->ODR &= ~(1U<<9); }
+void cs_disable(void) { GPIOA->ODR |=  (1U<<9); }

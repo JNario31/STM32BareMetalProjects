@@ -1,0 +1,6 @@
+../Src/gpio.c:12:6:led_init	1
+../Src/gpio.c:22:6:led_on	1
+../Src/gpio.c:28:6:led_off	1
+../Src/gpio.c:33:6:button_init	1
+../Src/gpio.c:43:6:get_btn_state	2
+../Src/gpio.c:59:6:led_toggle	1

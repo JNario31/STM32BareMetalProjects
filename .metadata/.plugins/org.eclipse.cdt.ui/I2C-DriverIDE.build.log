@@ -1,0 +1,10 @@
+17:39:21 **** Incremental Build of configuration Debug for project I2C-DriverIDE ****
+make -j9 all 
+arm-none-eabi-size  I2C-DriverIDE.elf 
+   text	   data	    bss	    dec	    hex	filename
+   8164	     92	   1944	  10200	   27d8	I2C-DriverIDE.elf
+Finished building: default.size.stdout
+ 
+
+17:39:22 Build Finished. 0 errors, 0 warnings. (took 327ms)
+

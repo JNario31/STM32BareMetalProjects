@@ -1,0 +1,20 @@
+#include "spi.h"
+#include "uart.h"
+#include <stdio.h>
+
+int main(void) {
+  uart_init();
+  spi_gpio_init();
+  spi1_config();
+
+  uint8_t tx = 0xA5, rx = 0;
+  // ensure CS is idle high
+  cs_disable();
+
+  // One‑byte loopback
+  spi1_transmit(&tx, 1);
+  spi1_receive(&rx, 1);
+  printf("Loopback read = 0x%02X\n", rx);
+
+  while (1);
+}

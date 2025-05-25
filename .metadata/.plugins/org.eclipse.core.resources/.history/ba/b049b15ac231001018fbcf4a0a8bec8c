@@ -1,0 +1,20 @@
+#include <stdio.h>
+#include "stm32f446xx.h"
+#include "uart.h"
+#include "spi.h"
+
+int main(void)
+{
+	// in main():
+	uart_init();
+	spi_gpio_init();
+	spi1_config();
+
+	cs_disable();    // PA9 high, so nothing else drives MISO
+	uint8_t tx = 0xA5, rx = 0;
+	spi1_transmit(&tx,1);
+	spi1_receive (&rx,1);
+	printf("Loopback read = 0x%02X\n", rx);
+	while(1);
+
+}

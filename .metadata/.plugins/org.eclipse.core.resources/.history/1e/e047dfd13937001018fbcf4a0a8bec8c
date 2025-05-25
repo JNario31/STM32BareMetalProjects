@@ -1,0 +1,108 @@
+#include "lcd.h"
+#include <stdint.h>
+#include <stddef.h>
+#include "spi.h"
+
+//Send command byte
+static void lcd_cmd(uint8_t cmd)
+{
+	dc_enable();
+	cs_enable();
+	spi1_transmit(&cmd,1);
+	cs_disable();
+}
+
+
+//Send block of data bytes
+static void lcd_data(uint8_t *data, size_t len)
+{
+	dc_disable();
+	cs_enable();
+	spi1_transmit(data,len);
+	cs_disable();
+
+}
+
+static void lcd_reset(void)
+{
+
+	rst_enable();
+	systick_msec_delay(10);
+	rst_disable();
+	systick_msec_delay(10);
+}
+
+void lcd_init(void) {
+  spi_gpio_init();
+  cs_disable();
+  dc_disable();
+  spi1_config();
+
+  lcd_reset();
+
+  // 1) Software reset
+  lcd_cmd(SWRESET);
+
+
+  // 2) Sleep out
+  lcd_cmd(SLPOUT);
+
+
+  // 3) Set Color Mode
+  lcd_cmd(COLMOD);
+  {
+	  uint8_t col = 0x05;      // 16‑bit
+	  lcd_data(&col, 1);
+  }
+
+  // 4) Memory access control
+  lcd_cmd(MEMCTL);
+  {
+	  uint8_t m = 0x00;        // row/col, BGR off
+	  lcd_data(&m, 1);
+  }
+
+  // 5) Display on
+  lcd_cmd(DISPON);
+
+}
+
+void lcd_set_window(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1) {
+    // column address
+    lcd_cmd(CASET);
+    {
+        uint8_t buf[4] = {
+            (uint8_t)(x0 >> 8), (uint8_t)x0,
+            (uint8_t)(x1 >> 8), (uint8_t)x1
+        };
+        lcd_data(buf, 4);
+    }
+
+    // page (row) address
+    lcd_cmd(PASET);
+    {
+        uint8_t buf[4] = {
+            (uint8_t)(y0 >> 8), (uint8_t)y0,
+            (uint8_t)(y1 >> 8), (uint8_t)y1
+        };
+        lcd_data(buf, 4);
+    }
+
+    // prepare to write to RAM
+    lcd_cmd(MEMWR);
+}
+
+void lcd_draw_pixel(uint16_t x, uint16_t y, uint16_t color) {
+    lcd_set_window(x, y, x, y);
+    uint8_t pix[2] = { (uint8_t)(color >> 8), (uint8_t)color };
+    lcd_data(pix, 2);
+}
+
+void lcd_fill_screen(uint16_t color) {
+    lcd_set_window(0, 0, LCD_WIDTH - 1, LCD_HEIGHT - 1);
+    uint8_t pix[2] = { (uint8_t)(color >> 8), (uint8_t)color };
+    for (uint32_t i = 0; i < (uint32_t)LCD_WIDTH * LCD_HEIGHT; i++) {
+        lcd_data(pix, 2);
+    }
+}
+

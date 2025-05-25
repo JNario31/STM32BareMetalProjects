@@ -1,0 +1,14 @@
+#include "gpio_exti.h"
+
+#define GPIOCEN		(1U<<2)
+#define SYSCFGEN	(1U<<14)
+
+void pc13_exti_init(void){
+
+	/*Disable Global Interrupts*/
+	__disable_irq();
+
+	RCC->AHB1ENR |= GPIOCEN;
+
+
+}

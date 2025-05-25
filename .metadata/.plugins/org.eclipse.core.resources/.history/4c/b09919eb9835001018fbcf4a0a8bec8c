@@ -1,0 +1,90 @@
+#include "lcd.h"
+#include <stdint.h>
+#include <stddef.h>
+#include "spi.h"
+
+//Send command byte
+static void lcd_cmd(uint8_t cmd)
+{
+	dc_enable();
+	cs_enable();
+	spi1_transmit(&cmd,1);
+	cs_disable();
+}
+
+
+//Send block of data bytes
+static void lcd_data(uint8_t *data, size_t len)
+{
+	dc_disable();
+	cs_enable();
+	spi1_transmit(data,len);
+	cs_disable();
+
+}
+
+static void lcd_reset(void)
+{
+	rst_enable();
+	rst_disable();
+}
+
+void lcd_init(void) {
+  spi_gpio_init();
+  cs_disable();
+  dc_disable();
+  spi1_config();
+
+  lcd_reset();
+
+  // 1) Software reset
+  lcd_cmd(SWRESET);
+
+
+  // 2) Sleep out
+  lcd_cmd(SLPOUT);
+
+
+  // 3) Set Color Mode
+  lcd_cmd(COLMOD);
+  {
+	  uint8_t col = 0x05;      // 16‑bit
+	  lcd_data(&col, 1);
+  }
+
+  // 4) Memory access control
+  lcd_cmd(MADCTL);
+  {
+	  uint8_t m = 0x00;        // row/col, BGR off
+	  lcd_data(&m, 1);
+  }
+
+  // 5) Display on
+  lcd_cmd(DISPON);
+
+}
+
+
+void lcd_set_window(uint16_t x0, uint16_t y0,
+                    uint16_t x1, uint16_t y1)
+{
+  // column address set (0x2A)
+  lcd_cmd(0x2A);
+    uint8_t cols[] = {
+      x0 >> 8, x0 & 0xFF,
+      x1 >> 8, x1 & 0xFF
+    };
+  lcd_data(cols,4);
+
+  // row address set (0x2B)
+  lcd_cmd(0x2B);
+    uint8_t rows[] = {
+      y0 >> 8, y0 & 0xFF,
+      y1 >> 8, y1 & 0xFF
+    };
+  lcd_data(rows,4);
+
+  // next SPI data will go to memory write
+  lcd_cmd(0x2C);
+}
+

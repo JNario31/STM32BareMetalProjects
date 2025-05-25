@@ -1,0 +1,25 @@
+#ifndef LCD_H_
+#define LCD_H_
+#include <stdint.h>
+#include <stddef.h>
+#include "spi.h"
+
+//Display size
+#define LCD_WIDTH		128
+#define LCD_LENGTH		128
+
+//Command set
+#define SWRESET			0x01	//Software Reset
+#define SLPOUT			0x11	//Sleep out
+#define DISPON			0x29	//Display on
+#define CASET			0x2A	//Column Address set
+#define PASET			0x2B	//Page Address set
+#define MEMWR			0x2C	//Memory Write
+#define MEMCTL			0x36	//Memory Access Control
+#define COLMOD			0x3A	//Interface Pixel Format
+
+void lcd_init(void);
+void lcd_set_window(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
+void lcd_draw_pixel(uint16_t x, uint16_t y, uint16_t color);
+void lcd_fill_screen(uint16_t color);
+#endif

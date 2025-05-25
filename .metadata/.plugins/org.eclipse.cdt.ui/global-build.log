@@ -1,0 +1,21 @@
+16:04:11 **** Incremental Build of configuration Debug for project Interrupts ****
+make -j9 all 
+arm-none-eabi-gcc "../Src/gpio_exti.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -DSTM32F466xx -c -I../Inc -I"/Users/johnnario/STM32Projects/BaremetalProjects/Interrupts/chip-headers/CMSIS/Include" -I"/Users/johnnario/STM32Projects/BaremetalProjects/Interrupts/chip-headers/CMSIS/Device/ST/STM32F4xx/Include" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/gpio_exti.d" -MT"Src/gpio_exti.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/gpio_exti.o"
+arm-none-eabi-gcc -o "Interrupts.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/johnnario/STM32Projects/BaremetalProjects/Interrupts/STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Interrupts.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Interrupts.elf
+ 
+arm-none-eabi-size  Interrupts.elf 
+arm-none-eabi-objdump -h -S Interrupts.elf  > "Interrupts.list"
+   text	   data	    bss	    dec	    hex	filename
+   4032	     92	   1900	   6024	   1788	Interrupts.elf
+Finished building: default.size.stdout
+ 
+Finished building: Interrupts.list
+ 
+16:04:21 **** Incremental Build of configuration Debug for project Interrupts ****
+make -j9 all 
+arm-none-eabi-size  Interrupts.elf 
+   text	   data	    bss	    dec	    hex	filename
+   4032	     92	   1900	   6024	   1788	Interrupts.elf
+Finished building: default.size.stdout
+ 

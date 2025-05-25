@@ -1,0 +1,7 @@
+../Src/lcd.c:7:13:lcd_cmd	1
+../Src/lcd.c:17:13:lcd_data	1
+../Src/lcd.c:26:13:lcd_reset	1
+../Src/lcd.c:35:6:lcd_init	1
+../Src/lcd.c:71:6:lcd_set_window	1
+../Src/lcd.c:96:6:lcd_draw_pixel	1
+../Src/lcd.c:102:6:lcd_fill_screen	2

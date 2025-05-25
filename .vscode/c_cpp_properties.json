@@ -7,7 +7,8 @@
                 "${workspaceFolder}/SysTick-Driver/inc",
                 "${workspaceFolder}/UART-Driver/inc",
                 "${workspaceFolder}/UART-Driver/chip-headers/CMSIS/Device/ST/STM32F4xx/Include",
-                "${workspaceFolder}/ADC-Driver/chip-headers/CMSIS/Include"
+                "${workspaceFolder}/ADC-Driver/chip-headers/CMSIS/Include",
+                "${workspaceFolder}/SPI-Driver/inc"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

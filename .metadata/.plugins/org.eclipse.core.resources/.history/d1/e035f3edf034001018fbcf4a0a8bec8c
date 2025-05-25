@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdint.h>
+#include "stm32f446xx.h"
+#include "uart.h"
+#include "lcd.h"
+
+
+int main(void)
+{
+
+	lcd_init();
+	lcd_set_window(0, 0, 127, 159);
+
+	dc_disable();         // DC = 1 for data
+	cs_enable();          // CS = 0
+	spi1_transmit((uint8_t *) 0xF800, 2);
+	cs_disable();
+
+    while (1)
+    {
+
+    	for (uint32_t i = 0; i < (uint32_t)127 * 159; i++) {
+    	        // send one pixel (MSB first then LSB)
+    	               // CS = 1
+		}
+
+    }
+
+    return 0;
+}

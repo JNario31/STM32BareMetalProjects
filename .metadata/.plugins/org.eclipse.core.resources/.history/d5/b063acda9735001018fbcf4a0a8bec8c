@@ -1,0 +1,6 @@
+#ifndef LCD_H_
+#define LCD_H_
+#include "spi.h"
+void lcd_set_window(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
+void lcd_init(void);
+#endif

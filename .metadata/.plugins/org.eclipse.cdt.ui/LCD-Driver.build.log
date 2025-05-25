@@ -1,0 +1,21 @@
+14:27:28 **** Incremental Build of configuration Debug for project LCD-Driver ****
+make -j9 all 
+arm-none-eabi-gcc "../Src/lcd.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F446RETx -DNUCLEO_F446RE -DSTM32F466xx -c -I../Inc -I"/Users/johnnario/STM32Projects/BaremetalProjects/LCD-Driver/chip-headers/CMSIS/Include" -I"/Users/johnnario/STM32Projects/BaremetalProjects/LCD-Driver/chip-headers/CMSIS/Device/ST/STM32F4xx/Include" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/lcd.d" -MT"Src/lcd.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/lcd.o"
+../Src/lcd.c: In function 'lcd_reset':
+../Src/lcd.c:30:9: warning: implicit declaration of function 'systick_msec_delay' [-Wimplicit-function-declaration]
+   30 |         systick_msec_delay(10);
+      |         ^~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "LCD-Driver.elf" @"objects.list"   -mcpu=cortex-m4 -T"/Users/johnnario/STM32Projects/BaremetalProjects/LCD-Driver/STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="LCD-Driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: LCD-Driver.elf
+ 
+arm-none-eabi-size  LCD-Driver.elf 
+arm-none-eabi-objdump -h -S LCD-Driver.elf  > "LCD-Driver.list"
+   text	   data	    bss	    dec	    hex	filename
+   2020	      0	   1568	   3588	    e04	LCD-Driver.elf
+Finished building: default.size.stdout
+ 
+Finished building: LCD-Driver.list
+ 
+
+14:27:29 Build Finished. 0 errors, 1 warnings. (took 902ms)
+

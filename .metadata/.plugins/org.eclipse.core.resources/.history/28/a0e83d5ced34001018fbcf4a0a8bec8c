@@ -1,0 +1,42 @@
+#include "spi.h"
+
+static void lcd_cmd(uint8_t cmd)
+{
+	dc_enable();
+	cs_enable();
+	spi1_transmit(&cmd,1);
+	cs_disable();
+}
+
+static void lcd_data(uint8_t *data, size_t len)
+{
+	dc_disable();
+	cs_enable();
+	spi1_transmit(&data,len);
+	cs_disable();
+
+}
+
+void lcd_set_window(uint16_t x0, uint16_t y0,
+                    uint16_t x1, uint16_t y1)
+{
+  // column address set (0x2A)
+  lcd_cmd(0x2A);
+    uint8_t cols[] = {
+      x0 >> 8, x0 & 0xFF,
+      x1 >> 8, x1 & 0xFF
+    };
+  lcd_data(cols,4);
+
+  // row address set (0x2B)
+  lcd_cmd(0x2B);
+    uint8_t rows[] = {
+      y0 >> 8, y0 & 0xFF,
+      y1 >> 8, y1 & 0xFF
+    };
+  lcd_data(rows,4);
+
+  // next SPI data will go to memory write
+  lcd_cmd(0x2C);
+}
+

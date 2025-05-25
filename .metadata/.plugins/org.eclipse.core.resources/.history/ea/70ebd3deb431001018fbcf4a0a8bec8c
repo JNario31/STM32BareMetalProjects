@@ -1,0 +1,17 @@
+#include <stdio.h>
+#include "stm32f446xx.h"
+#include "uart.h"
+#include "spi.h"
+
+int main(void)
+{
+	// quickly turn PA5 into a GPIO and toggle it
+	RCC->AHB1ENR |= (1U<<0);
+	GPIOA->MODER  &= ~(3U<<(5*2));
+	GPIOA->MODER  |=  (1U<<(5*2));        // PA5 = push‑pull output
+	while (1) {
+	  GPIOA->ODR ^= (1U<<5);
+	  for (volatile int i=0; i<200000; i++);
+	}
+
+}
