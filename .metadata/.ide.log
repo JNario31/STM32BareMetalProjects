@@ -93,3 +93,6 @@
 2025-05-25 09:54:16,353 [INFO] WebApp:194 - Connection lost
 2025-05-25 09:54:18,036 [INFO] WebApp:191 - Connection restablished
 2025-05-25 10:05:45,424 [INFO] WebApp:194 - Connection lost
+2025-05-25 12:51:24,421 [INFO] WebApp:191 - Connection restablished
+2025-05-25 12:51:24,663 [INFO] WebApp:194 - Connection lost
+2025-05-25 12:51:25,017 [INFO] WebApp:191 - Connection restablished

@@ -1,7 +1,7 @@
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=macosx
-configDescList=
+configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Header_files Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:I2C-DriverIDE Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Interrupts Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:SPI-DriverIDE Debug (1),org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:SPI-DriverIDE Debug
 eclipse.preferences.version=1
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Header_files\ Debug/activeLaunchMode=run
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Header_files\ Debug/activeLaunchTarget=null\:---

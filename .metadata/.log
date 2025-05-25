@@ -1894,3 +1894,6 @@ org.eclipse.core.runtime.CoreException: Project: I2C-DriverIDE is closed or inac
 
 !ENTRY com.st.stm32cube.common.projectcreation 4 0 2025-05-24 16:04:48.087
 !MESSAGE Project is null
+
+!ENTRY org.eclipse.cdt.core 1 0 2025-05-25 12:52:24.174
+!MESSAGE Indexed 'RTC-Driver' (8 sources, 69 headers) in 0.811 sec: 3,495 declarations; 5,861 references; 0 unresolved inclusions; 1 syntax errors; 2 unresolved names (0.021%)
